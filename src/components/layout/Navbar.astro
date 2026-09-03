@@ -1,0 +1,188 @@
+---
+import { siteConfig } from '../../data/siteConfig';
+import { navigationItems } from '../../data/navigation';
+import Icon from '../ui/Icon.astro';
+---
+
+<nav class="sticky top-0 z-50 w-full" id="topnav">
+  <div
+    class="relative mx-auto flex h-[4.5rem] max-w-container-max items-center justify-between gap-8 px-margin-mobile md:h-20 md:px-margin-desktop"
+  >
+    <a class="shrink-0" href="#">
+      <img
+        class="h-10 w-auto transition-opacity duration-200 hover:opacity-85 md:h-11"
+        src="/logo.webp"
+        alt="Powertrain Service & Parts, inicio"
+        width="163"
+        height="44"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </a>
+
+    <div class="hidden flex-1 justify-center lg:flex">
+      <div class="flex items-center gap-7 xl:gap-9">
+        {
+          navigationItems.map((item) => (
+            <a
+              class="nav-link font-display text-[0.8125rem] font-medium uppercase tracking-[0.08em]"
+              data-section={item.id}
+              href={item.href}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    <a
+      class="btn btn-primary group hidden py-2.5 lg:inline-flex"
+      href="#contacto"
+    >
+      Cotizar
+      <Icon
+        name="arrow-right"
+        size={16}
+        class="transition-transform duration-300 ease-out group-hover:translate-x-1"
+      />
+    </a>
+
+    <button
+      class="p-2 text-bone transition-colors hover:text-gold lg:hidden"
+      id="mobile-toggle"
+      aria-label="Abrir menú"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span id="mobile-icon-menu"><Icon name="menu" size={26} /></span>
+      <span class="hidden" id="mobile-icon-close"><Icon name="close" size={26} /></span>
+    </button>
+  </div>
+
+  <div
+    class="grid grid-rows-[0fr] border-t border-navy-500 bg-navy transition-[grid-template-rows] duration-500 ease-out data-[open='true']:grid-rows-[1fr] lg:hidden"
+    id="mobile-menu"
+    data-open="false"
+  >
+    <div class="overflow-hidden">
+      <div class="px-margin-mobile py-6">
+        <ul>
+          {
+            navigationItems.map((item) => (
+              <li class="border-b border-navy-500/60">
+                <a
+                  class="mobile-link block py-4 font-display text-base font-medium uppercase tracking-[0.08em] text-bone transition-colors hover:text-gold"
+                  href={item.href}
+                  data-section={item.id}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <a
+          class="btn btn-primary mt-6 w-full"
+          href="#contacto"
+        >
+          Cotizar
+          <Icon name="arrow-right" size={16} />
+        </a>
+        <a
+          class="t-data mt-3 flex items-center justify-center gap-2 py-2 text-smoke"
+          href={`tel:${siteConfig.contact.phone}`}
+        >
+          <Icon name="phone" size={15} />
+          {siteConfig.contact.phoneDisplay}
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  function initNavbar() {
+    const topnav = document.getElementById('topnav');
+    if (!topnav) return;
+
+    let ticking = false;
+
+    const onScroll = () => {
+      topnav.dataset.scrolled = window.scrollY > 16 ? 'true' : 'false';
+      ticking = false;
+    };
+
+    const requestScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(onScroll);
+      }
+    };
+
+    window.addEventListener('scroll', requestScroll, { passive: true });
+    window.addEventListener('resize', requestScroll, { passive: true });
+    onScroll();
+
+    const toggle = document.getElementById('mobile-toggle');
+    const menu = document.getElementById('mobile-menu');
+    const iconMenu = document.getElementById('mobile-icon-menu');
+    const iconClose = document.getElementById('mobile-icon-close');
+    let open = false;
+
+    const setMenu = (next: boolean) => {
+      if (!menu || !toggle || !iconMenu || !iconClose) return;
+      open = next;
+      menu.dataset.open = String(next);
+      iconMenu.classList.toggle('hidden', next);
+      iconClose.classList.toggle('hidden', !next);
+      toggle.setAttribute('aria-expanded', String(next));
+      toggle.setAttribute('aria-label', next ? 'Cerrar menú' : 'Abrir menú');
+    };
+
+    toggle?.addEventListener('click', () => setMenu(!open));
+    document
+      .querySelectorAll('.mobile-link')
+      .forEach((link) => link.addEventListener('click', () => setMenu(false)));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && open) setMenu(false);
+    });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 1024) setMenu(false);
+    });
+
+    const links = document.querySelectorAll<HTMLAnchorElement>(
+      '.nav-link, .mobile-link'
+    );
+
+    const setActive = (sectionId: string) => {
+      links.forEach((link) => {
+        const active = link.dataset.section === sectionId;
+        link.setAttribute('aria-current', active ? 'true' : 'false');
+        if (link.classList.contains('mobile-link')) {
+          link.classList.toggle('text-gold', active);
+          link.classList.toggle('text-bone', !active);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      },
+      { rootMargin: '-25% 0px -60% 0px', threshold: 0 }
+    );
+
+    document
+      .querySelectorAll('[data-nav-section]')
+      .forEach((section) => observer.observe(section));
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initNavbar);
+  } else {
+    initNavbar();
+  }
+</script>

@@ -1,0 +1,73 @@
+---
+import { drivelineBrands, drivelineFeatures } from '../../data/services';
+import { media, hasImage } from '../../data/media';
+import Icon from '../ui/Icon.astro';
+
+const photo = media.driveline;
+const showPhoto = hasImage(photo.file);
+---
+
+<section
+  class="w-full bg-navy py-section-gap md:py-section-gap-lg"
+  id="driveline"
+  data-nav-section
+>
+  <div class="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
+    <div class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-gutter">
+      <div class="lg:col-span-5">
+        <p class="t-data mb-4 text-blue-bright">DANA Spicer · ZF</p>
+        <h2 class="t-h2 text-bone">Componentes y partes de transmisión</h2>
+        <p class="t-lead mt-5 max-w-measure">
+          Suministro de repuestos para transmisión, ejes, diferenciales y
+          reductores de maquinaria pesada y equipo industrial.
+        </p>
+
+        <ul class="mt-9 space-y-px bg-navy-500/50">
+          {
+            drivelineFeatures.map((text) => (
+              <li class="flex items-center gap-3.5 bg-navy py-3.5">
+                <Icon name="check" size={17} class="shrink-0 text-gold" />
+                <span class="t-body text-smoke">{text}</span>
+              </li>
+            ))
+          }
+        </ul>
+
+        {
+          showPhoto && (
+            <img
+              class="mt-9 aspect-[4/3] w-full rounded-2xl object-cover"
+              src={`/img/${photo.file}`}
+              alt={photo.alt}
+              width={photo.width}
+              height={photo.height}
+              loading="lazy"
+              decoding="async"
+            />
+          )
+        }
+      </div>
+
+      <div class="lg:col-span-6 lg:col-start-7">
+        <div class="grid grid-cols-1 gap-px bg-navy-500/60 sm:grid-cols-2">
+          {
+            drivelineBrands.map((brand) => (
+              <div class="bg-navy-700 px-6 py-8">
+                <h3 class="font-display text-xl font-semibold tracking-[-0.02em] text-bone">
+                  {brand.name}
+                </h3>
+                <p class="t-small mt-3 text-grit">{brand.description}</p>
+              </div>
+            ))
+          }
+        </div>
+
+        <div class="clip-panel mt-px bg-gold px-6 py-9 md:px-8 md:py-10">
+          <p class="font-display text-[1.625rem] font-semibold leading-[1.1] tracking-[-0.03em] text-gold-ink md:text-[2rem]">
+            Repuestos de alta calidad para maquinaria que mueve el mundo
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

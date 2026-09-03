@@ -1,0 +1,63 @@
+---
+import { trainingModules } from '../../data/training';
+import { media, hasImage } from '../../data/media';
+
+const photos = media.training.filter((photo) => hasImage(photo.file));
+---
+
+<section
+  class="w-full bg-navy-700 py-section-gap md:py-section-gap-lg"
+  id="formacion"
+  data-nav-section
+>
+  <div class="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
+    <div class="max-w-3xl">
+      <h2 class="t-h2 text-bone">Formación en lubricación de precisión</h2>
+      <p class="t-lead mt-5 max-w-measure">
+        Tres módulos que se adaptan al parque de máquinas del cliente y se
+        imparten sobre sus propios equipos.
+      </p>
+    </div>
+
+    <dl class="mt-12 md:mt-14">
+      {
+        trainingModules.map((module) => (
+          <div class="grid grid-cols-1 gap-4 border-t border-navy-500/60 py-8 lg:grid-cols-12 lg:gap-gutter lg:py-9">
+            <dt class="lg:col-span-4">
+              <h3 class="t-h3 text-bone">{module.title}</h3>
+            </dt>
+            <dd class="lg:col-span-5">
+              <p class="t-body text-smoke">{module.description}</p>
+            </dd>
+            <dd class="lg:col-span-3">
+              <ul class="space-y-1.5">
+                {module.topics.map((topic) => (
+                  <li class="t-data text-grit">{topic}</li>
+                ))}
+              </ul>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+    <div class="border-t border-navy-500/60" aria-hidden="true"></div>
+
+    {
+      photos.length > 0 && (
+        <div class="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-3">
+          {photos.map((photo) => (
+            <img
+              class="aspect-[4/3] w-full rounded-xl object-cover"
+              src={`/img/${photo.file}`}
+              alt={photo.alt}
+              width={photo.width}
+              height={photo.height}
+              loading="lazy"
+              decoding="async"
+            />
+          ))}
+        </div>
+      )
+    }
+  </div>
+</section>

@@ -1,0 +1,69 @@
+---
+import { platformCategories } from '../../data/platforms';
+---
+
+<section class="w-full bg-navy-700 py-section-gap md:py-section-gap-lg">
+  <div class="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
+    <div class="max-w-3xl">
+      <h2 class="t-h2 text-bone">Equipos compatibles</h2>
+      <p class="t-lead mt-5 max-w-measure">
+        Busque su plataforma. Todos los productos están diseñados con
+        características de alta resistencia para durar más tiempo y reducir los
+        costes de funcionamiento.
+      </p>
+    </div>
+
+    <div class="mt-12 space-y-8 md:mt-14">
+      {
+        platformCategories.map((category) => (
+          <article class="clip-panel bg-navy">
+            <header class="flex items-center justify-between gap-4 bg-blue-deep px-5 py-3.5">
+              <h3 class="t-label text-bone">{category.title}</h3>
+              <span class="t-data hidden text-[0.75rem] text-bone/70 sm:block">
+                {category.brands.reduce((total, item) => total + item.models.length, 0)} modelos
+              </span>
+            </header>
+
+            <div
+              class:list={[
+                'grid grid-cols-1 gap-px bg-navy-500/60 sm:grid-cols-2',
+                category.brands.length > 2 ? 'lg:grid-cols-4' : 'lg:grid-cols-2',
+              ]}
+            >
+              {category.brands.map((item) => (
+                <div class="bg-navy px-5 py-6">
+                  <h4 class="t-h4 text-bone">{item.brand}</h4>
+                  <ul class="mt-4 max-w-sm">
+                    {item.models.map((model) => (
+                      <li class="flex items-baseline justify-between gap-3 border-b border-navy-500/50 py-2 last:border-b-0">
+                        <span class="t-data text-smoke">{model.name}</span>
+                        {model.isNew && (
+                          <span class="t-data rounded-sm bg-gold px-1.5 py-0.5 text-[0.625rem] leading-normal text-gold-ink">
+                            Nuevo
+                          </span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="clip-panel mt-10 max-w-3xl bg-navy">
+      <div class="stripes h-[6px]" aria-hidden="true"></div>
+      <p class="t-body max-w-measure px-6 py-7 text-smoke md:px-8">
+        Los componentes se fabrican en la planta europea de Progress Mining, de
+        acuerdo a las normas más exigentes. La intercambiabilidad y las
+        condiciones de garantía superiores ofrecen una alternativa competitiva en
+        costes. Cada compra incluye monitoreo de condiciones:
+        <strong class="font-medium text-bone">
+          los datos recopilados sostienen la asesoría y prolongan la vida útil de sus piezas.
+        </strong>
+      </p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,92 @@
+---
+import { siteConfig } from '../../data/siteConfig';
+import { supplierBrands } from '../../data/lines';
+import Icon from '../ui/Icon.astro';
+
+const channels = [
+  {
+    label: 'Llame',
+    value: siteConfig.contact.phoneDisplay,
+    href: `tel:${siteConfig.contact.phone}`,
+    icon: 'phone' as const,
+  },
+  {
+    label: 'Escriba',
+    value: siteConfig.contact.email,
+    href: `mailto:${siteConfig.contact.email}`,
+    icon: 'mail' as const,
+  },
+  {
+    label: 'Visite',
+    value: siteConfig.contact.websiteDisplay,
+    href: siteConfig.contact.website,
+    icon: 'globe' as const,
+  },
+];
+---
+
+<section class="w-full bg-navy" id="contacto" data-nav-section>
+  <div class="stripes" aria-hidden="true"></div>
+
+  <div
+    class="mx-auto max-w-container-max px-margin-mobile pb-16 pt-section-gap md:px-margin-desktop md:pb-20 md:pt-section-gap-lg"
+  >
+    <div class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-gutter">
+      <div class="lg:col-span-7">
+        <h2 class="t-display max-w-[16ch] text-bone">
+          Díganos qué máquina tiene y le decimos <span class="text-gold">qué necesita</span>
+        </h2>
+        <p class="t-lead mt-7 max-w-measure">
+          Reserve una supervisión del acondicionamiento sin coste, solicite su
+          kit de inspección de desgaste, o pídanos la ficha técnica del
+          lubricante que está evaluando.
+        </p>
+        <a class="btn btn-primary group mt-9" href={`mailto:${siteConfig.contact.email}`}>
+          Solicitar cotización
+          <Icon
+            name="arrow-right"
+            size={17}
+            class="transition-transform duration-300 ease-out group-hover:translate-x-1"
+          />
+        </a>
+      </div>
+
+      <div class="lg:col-span-4 lg:col-start-9">
+        <h3 class="t-label text-grit">Marcas que representamos</h3>
+        <ul class="mt-5 space-y-px bg-navy-500/50">
+          {
+            supplierBrands.map((brand) => (
+              <li class="bg-navy py-3.5">
+                <p class="t-h4 text-bone">{brand.name}</p>
+                <p class="t-small text-grit">{brand.note}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <!-- Triada de contacto, heredada de sus brochures -->
+    <div class="mt-14 grid grid-cols-1 gap-px bg-navy-500/50 sm:grid-cols-3">
+      {
+        channels.map((channel) => (
+          <a
+            class="group flex flex-col gap-2.5 bg-navy py-6 sm:px-7 sm:first:pl-0"
+            href={channel.href}
+            {...(channel.icon === 'globe'
+              ? { target: '_blank', rel: 'noopener' }
+              : {})}
+          >
+            <span class="t-label flex items-center gap-2 text-grit">
+              <Icon name={channel.icon} size={16} class="text-gold" />
+              {channel.label}
+            </span>
+            <span class="t-data text-[0.9375rem] text-bone transition-colors group-hover:text-gold">
+              {channel.value}
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

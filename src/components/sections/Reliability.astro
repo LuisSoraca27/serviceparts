@@ -1,0 +1,89 @@
+---
+import { reliabilitySteps, fieldServices, serviceQuote } from '../../data/services';
+import { media, hasImage } from '../../data/media';
+import Icon from '../ui/Icon.astro';
+
+const photo = media.reliability;
+const showPhoto = hasImage(photo.file);
+---
+
+<section
+  class="w-full bg-navy py-section-gap md:py-section-gap-lg"
+  id="ingenieria"
+  data-nav-section
+>
+  <div class="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
+    <div class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-gutter">
+      <div class="lg:col-span-5">
+        <p class="t-data mb-4 text-blue-bright">Servicio planeado</p>
+        <h2 class="t-h2 text-bone">
+          <abbr class="no-underline" title="Ingeniería de Lubricación Aplicada">ILA</abbr>,
+          ingeniería de lubricación aplicada
+        </h2>
+        <p class="t-lead mt-5 max-w-measure">
+          Generar una cultura de lubricación exige más que aplicar lubricantes:
+          un enfoque estructurado y sostenido en el tiempo, con apoyo técnico,
+          formación, supervisión y mejora continua.
+        </p>
+
+        <figure class="clip-panel-sm mt-8 max-w-measure border border-navy-500 px-6 py-5">
+          <blockquote>
+            <p class="t-body text-bone">{serviceQuote}</p>
+          </blockquote>
+        </figure>
+
+        {
+          showPhoto && (
+            <img
+              class="mt-8 aspect-[4/3] w-full rounded-2xl object-cover"
+              src={`/img/${photo.file}`}
+              alt={photo.alt}
+              width={photo.width}
+              height={photo.height}
+              loading="lazy"
+              decoding="async"
+            />
+          )
+        }
+
+        <a class="btn btn-primary group mt-8" href="#contacto">
+          Hablar con un técnico
+          <Icon
+            name="arrow-right"
+            size={16}
+            class="transition-transform duration-300 ease-out group-hover:translate-x-1"
+          />
+        </a>
+      </div>
+
+      <div class="lg:col-span-6 lg:col-start-7">
+        <!-- El servicio como recorrido, no como lista de bondades -->
+        <ol class="relative border-l border-navy-500 pl-7">
+          {
+            reliabilitySteps.map((step) => (
+              <li class="relative pb-8 last:pb-0">
+                <span
+                  class="absolute -left-[calc(1.75rem+5px)] top-1.5 h-2.5 w-2.5 rounded-full bg-gold ring-4 ring-navy"
+                  aria-hidden="true"
+                />
+                <h3 class="t-h4 text-bone">{step.title}</h3>
+                <p class="t-small mt-2 max-w-measure text-grit">{step.description}</p>
+              </li>
+            ))
+          }
+        </ol>
+
+        <div class="mt-10 grid grid-cols-1 gap-px bg-navy-500/60">
+          {
+            fieldServices.map((item) => (
+              <div class="bg-navy-700 px-6 py-6">
+                <h3 class="t-h4 text-bone">{item.title}</h3>
+                <p class="t-small mt-2 max-w-measure text-grit">{item.description}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,73 @@
+---
+import { siteConfig } from '../../data/siteConfig';
+import { navigationItems } from '../../data/navigation';
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="w-full border-t border-hairline bg-navy-700">
+  <div
+    class="mx-auto grid max-w-container-max grid-cols-1 gap-12 px-margin-mobile py-14 md:grid-cols-12 md:px-margin-desktop md:py-16"
+  >
+    <div class="md:col-span-6">
+      <img
+        class="h-11 w-auto"
+        src="/logo.webp"
+        alt="Powertrain Service & Parts"
+        width="163"
+        height="44"
+        loading="lazy"
+        decoding="async"
+      />
+      <p class="t-body mt-6 max-w-[44ch] text-smoke">{siteConfig.tagline}</p>
+      <p class="t-data mt-7 text-grit">
+        {siteConfig.credentials.brands}
+      </p>
+    </div>
+
+    <nav class="md:col-span-3" aria-label="Secciones">
+      <h2 class="t-label text-grit">Secciones</h2>
+      <ul class="mt-5 space-y-3">
+        {
+          navigationItems.map((item) => (
+            <li>
+              <a class="t-small text-smoke transition-colors hover:text-gold" href={item.href}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="md:col-span-3">
+      <h2 class="t-label text-grit">Contacto</h2>
+      <ul class="mt-5 space-y-3">
+        <li>
+          <a class="t-data text-smoke transition-colors hover:text-gold" href={`tel:${siteConfig.contact.phone}`}>
+            {siteConfig.contact.phoneDisplay}
+          </a>
+        </li>
+        <li>
+          <a class="t-data break-all text-smoke transition-colors hover:text-gold" href={`mailto:${siteConfig.contact.email}`}>
+            {siteConfig.contact.email}
+          </a>
+        </li>
+        <li class="t-small text-grit">{siteConfig.credentials.origin}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-hairline">
+    <div
+      class="mx-auto flex max-w-container-max flex-col gap-2 px-margin-mobile py-5 md:flex-row md:items-center md:justify-between md:px-margin-desktop"
+    >
+      <p class="t-data text-grit">
+        © {currentYear} {siteConfig.brandName} {siteConfig.brandSubtitle}
+      </p>
+      <p class="t-data text-grit/70">
+        Las marcas citadas son propiedad de sus respectivos titulares.
+      </p>
+    </div>
+  </div>
+</footer>

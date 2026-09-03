@@ -1,0 +1,297 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    color-scheme: dark;
+    scrollbar-color: #10395f #01101c;
+  }
+
+  body {
+    background-color: theme('colors.navy');
+    color: theme('colors.bone');
+    font-family: theme('fontFamily.sans');
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: theme('colors.gold');
+    color: theme('colors.gold-ink');
+  }
+
+  :focus-visible {
+    outline: 2px solid theme('colors.gold');
+    outline-offset: 3px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 11px;
+    height: 11px;
+  }
+  ::-webkit-scrollbar-track {
+    background: theme('colors.navy');
+  }
+  ::-webkit-scrollbar-thumb {
+    background: theme('colors.navy-500');
+    border: 3px solid theme('colors.navy');
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: theme('colors.blue-deep');
+  }
+
+  a {
+    text-underline-offset: 0.25em;
+    text-decoration-thickness: 1px;
+  }
+
+  img {
+    display: block;
+  }
+}
+
+@layer components {
+  /* Tipografia: IBM Plex Sans para titulares y lectura,
+     DM Mono para dato. Todo en caja baja; las versalitas quedan
+     reservadas a siglas y referencias de producto. */
+
+  .t-display {
+    font-family: theme('fontFamily.display');
+    font-size: clamp(2.25rem, 4.7vw, 3.75rem);
+    line-height: 1.06;
+    letter-spacing: -0.032em;
+    font-weight: 600;
+    text-wrap: balance;
+  }
+
+  .t-h2 {
+    font-family: theme('fontFamily.display');
+    font-size: clamp(1.75rem, 3.4vw, 2.75rem);
+    line-height: 1.08;
+    letter-spacing: -0.028em;
+    font-weight: 600;
+    text-wrap: balance;
+  }
+
+  .t-h3 {
+    font-family: theme('fontFamily.display');
+    font-size: clamp(1.125rem, 1.6vw, 1.375rem);
+    line-height: 1.25;
+    letter-spacing: -0.018em;
+    font-weight: 600;
+  }
+
+  .t-h4 {
+    font-family: theme('fontFamily.display');
+    font-size: 1rem;
+    line-height: 1.35;
+    letter-spacing: -0.012em;
+    font-weight: 600;
+  }
+
+  .t-lead {
+    font-size: clamp(1.0625rem, 1.25vw, 1.1875rem);
+    line-height: 1.65;
+    font-weight: 400;
+    color: theme('colors.smoke');
+  }
+
+  .t-body {
+    font-size: 1rem;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  .t-small {
+    font-size: 0.875rem;
+    line-height: 1.65;
+    font-weight: 400;
+  }
+
+  /* Etiqueta estructural: encabeza una columna o nombra un canal. */
+  .t-label {
+    font-family: theme('fontFamily.display');
+    font-size: 0.8125rem;
+    line-height: 1.3;
+    font-weight: 600;
+    letter-spacing: 0;
+  }
+
+  /* Mono solo para dato real: referencias, modelos, temperaturas, cifras. */
+  .t-data {
+    font-family: theme('fontFamily.mono');
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Esquina achaflanada: el gesto que recorre todo su material impreso. */
+  .clip-panel {
+    clip-path: polygon(
+      0 0,
+      calc(100% - 20px) 0,
+      100% 20px,
+      100% 100%,
+      20px 100%,
+      0 calc(100% - 20px)
+    );
+  }
+
+  .clip-panel-sm {
+    clip-path: polygon(
+      0 0,
+      calc(100% - 12px) 0,
+      100% 12px,
+      100% 100%,
+      12px 100%,
+      0 calc(100% - 12px)
+    );
+  }
+
+  /* Franja diagonal: cierre de documento, igual que al pie de sus piezas. */
+  .stripes {
+    height: 10px;
+    background-color: theme('colors.navy-700');
+    background-image: repeating-linear-gradient(
+      -60deg,
+      theme('colors.gold') 0 9px,
+      transparent 9px 22px
+    );
+  }
+
+  .stripes-blue {
+    background-image: repeating-linear-gradient(
+      -60deg,
+      theme('colors.blue') 0 9px,
+      transparent 9px 22px
+    );
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    padding: 0.9375rem 1.5rem;
+    font-family: theme('fontFamily.display');
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    border-radius: 9999px;
+    transition:
+      background-color 200ms ease,
+      color 200ms ease,
+      border-color 200ms ease,
+      transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .btn-primary {
+    background: theme('colors.gold');
+    color: theme('colors.gold-ink');
+  }
+  .btn-primary:hover {
+    background: theme('colors.gold-bright');
+    transform: translateY(-2px);
+  }
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .btn-ghost {
+    border: 1px solid theme('colors.navy-500');
+    color: theme('colors.bone');
+    background: rgba(6, 32, 58, 0.6);
+  }
+  .btn-ghost:hover {
+    border-color: theme('colors.blue');
+    color: theme('colors.blue-bright');
+  }
+
+  /* Entrada del heroe: el unico momento animado de la pagina. */
+  .rise {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  .rise-on .rise {
+    animation: rise 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: var(--rise-delay, 0ms);
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+/* Barra superior: solida y en la paleta del sitio, con la estructura
+   de la referencia (versalitas espaciadas, subrayado de acento, pildora). */
+#topnav {
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color 320ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 320ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#topnav[data-scrolled='true'] {
+  background-color: rgba(1, 16, 28, 0.94);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom-color: theme('colors.navy-500');
+  box-shadow: 0 16px 36px -24px rgba(0, 0, 0, 0.85);
+}
+
+.nav-link {
+  position: relative;
+  padding-block: 0.5rem;
+  color: theme('colors.smoke');
+  transition: color 180ms ease;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.125rem;
+  height: 2px;
+  background: theme('colors.gold');
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-link:hover {
+  color: theme('colors.bone');
+}
+.nav-link[aria-current='true'] {
+  color: theme('colors.bone');
+}
+.nav-link[aria-current='true']::after {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .rise {
+    opacity: 1;
+    transform: none;
+  }
+}

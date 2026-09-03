@@ -1,0 +1,45 @@
+---
+---
+
+<section class="w-full bg-navy pt-2 pb-6 md:pt-4 md:pb-8">
+  <div class="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop" id="hero-content">
+    <!-- Lámina de portada con altura equilibrada y proporción cinematográfica -->
+    <div
+      class="rise relative flex min-h-[420px] sm:min-h-[480px] md:min-h-[530px] lg:min-h-[570px] w-full flex-col justify-end overflow-hidden rounded-2xl md:rounded-3xl"
+      style="--rise-delay: 0ms;"
+    >
+      <img
+        alt="Excavadora hidráulica de gran minería trabajando sobre su tren de rodaje en una mina a cielo abierto"
+        class="absolute inset-0 h-full w-full object-cover object-[62%_center] sm:object-center"
+        src="/hero.webp"
+        width="1672"
+        height="941"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
+      <!-- Overlay sutil y limpio que prioriza la claridad de la imagen como en la referencia -->
+      <div
+        class="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/35 to-transparent sm:bg-gradient-to-tr sm:from-navy/85 sm:via-navy/30 sm:to-transparent"
+      >
+      </div>
+
+      <!-- Titular blanco de alto impacto alineado a la parte inferior izquierda -->
+      <div class="relative z-10 max-w-2xl p-7 sm:p-11 md:p-14 lg:p-16">
+        <h1
+          class="rise font-display text-3xl font-bold leading-[1.08] tracking-tight text-white sm:text-4xl md:text-5xl lg:text-[3.5rem] text-balance"
+          style="--rise-delay: 140ms;"
+        >
+          Repuestos, lubricantes e ingeniería de lubricación
+        </h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="stripes mt-8 md:mt-12" aria-hidden="true"></div>
+</section>
+
+<script>
+  const hero = document.getElementById('hero-content');
+  if (hero) requestAnimationFrame(() => hero.classList.add('rise-on'));
+</script>

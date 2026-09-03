@@ -1,0 +1,143 @@
+---
+import {
+  certifications,
+  greases,
+  lubricantApplications,
+  lubricantProperties,
+} from '../../data/lubricants';
+import { media, hasImage } from '../../data/media';
+import Icon from '../ui/Icon.astro';
+
+const photo = media.lubricants;
+const showPhoto = hasImage(photo.file);
+---
+
+<section
+  class="w-full bg-navy-700 py-section-gap md:py-section-gap-lg"
+  id="lubricantes"
+  data-nav-section
+>
+  <div class="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
+    <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-gutter">
+    <div class={showPhoto ? 'lg:col-span-6' : 'max-w-3xl lg:col-span-12'}>
+      <p class="t-data mb-4 text-blue-bright">BECHEM</p>
+      <h2 class="t-h2 text-bone">Lubricantes especiales</h2>
+      <p class="t-lead mt-5 max-w-measure">
+        BECHEM es el fabricante de lubricantes industriales más antiguo de
+        Alemania y uno de los líderes en lubricantes especiales de alta calidad.
+        Su línea <em class="not-italic text-bone">food grade</em> está
+        certificada para plantas de alimentos y farmacéutica.
+      </p>
+    </div>
+
+    {
+      showPhoto && (
+        <div class="lg:col-span-5 lg:col-start-8">
+          <img
+            class="aspect-[4/3] w-full rounded-2xl object-cover"
+            src={`/img/${photo.file}`}
+            alt={photo.alt}
+            width={photo.width}
+            height={photo.height}
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      )
+    }
+    </div>
+
+    <!-- Certificaciones: es lo primero que pregunta una planta de alimentos -->
+    <div class="mt-12 grid grid-cols-1 gap-px bg-navy-500/60 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        certifications.map((item) => (
+          <div class="bg-navy px-6 py-7">
+            <div class="flex items-baseline gap-3">
+              <span class="font-mono text-base font-medium text-gold">{item.code}</span>
+              <h3 class="t-h4 text-bone">{item.title}</h3>
+            </div>
+            <p class="t-small mt-3 text-grit">{item.description}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Tabla de grasas: el dato que decide la compra -->
+    <div class="mt-12 overflow-hidden border border-navy-500/60 bg-navy md:mt-14">
+      <header class="flex flex-wrap items-baseline justify-between gap-3 bg-blue-deep px-5 py-3.5">
+        <h3 class="t-label text-bone">Grasas para industria alimenticia y farmacéutica</h3>
+        <span class="t-data text-[0.75rem] text-bone/70">Selección del catálogo</span>
+      </header>
+
+      <div class="overflow-x-auto">
+        <table class="w-full min-w-[52rem] border-collapse text-left">
+          <thead>
+            <tr class="border-b border-navy-500">
+              <th scope="col" class="t-label px-5 py-3.5 font-medium text-grit">Producto</th>
+              <th scope="col" class="t-label px-5 py-3.5 font-medium text-grit">Base</th>
+              <th scope="col" class="t-label px-5 py-3.5 font-medium text-grit">NLGI</th>
+              <th scope="col" class="t-label px-5 py-3.5 font-medium text-grit">Temperatura</th>
+              <th scope="col" class="t-label px-5 py-3.5 font-medium text-grit">Grado</th>
+              <th scope="col" class="t-label px-5 py-3.5 font-medium text-grit">Característica</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              greases.map((row) => (
+                <tr class="border-b border-navy-500/40 last:border-b-0">
+                  <th scope="row" class="t-h4 whitespace-nowrap px-5 py-4 text-left font-semibold text-bone">
+                    {row.product}
+                  </th>
+                  <td class="t-data px-5 py-4 text-smoke">{row.base}</td>
+                  <td class="t-data whitespace-nowrap px-5 py-4 text-smoke">{row.nlgi}</td>
+                  <td class="t-data whitespace-nowrap px-5 py-4 text-smoke">{row.temp}</td>
+                  <td class="px-5 py-4">
+                    <span class="t-data rounded-sm bg-gold px-1.5 py-0.5 text-[0.6875rem] leading-normal text-gold-ink">
+                      {row.grade}
+                    </span>
+                  </td>
+                  <td class="t-small max-w-[26rem] px-5 py-4 text-grit">{row.note}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-gutter">
+      <div class="lg:col-span-5">
+        <h3 class="t-h3 text-bone">Dónde se aplican</h3>
+        <ul class="mt-5 grid grid-cols-1 gap-x-8 gap-y-1 sm:grid-cols-2 lg:grid-cols-1">
+          {
+            lubricantApplications.map((item) => (
+              <li class="t-small border-b border-navy-500/40 py-2.5 text-smoke">{item}</li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="lg:col-span-6 lg:col-start-7">
+        <h3 class="t-h3 text-bone">Qué resuelven</h3>
+        <ul class="mt-5 space-y-px bg-navy-500/50">
+          {
+            lubricantProperties.map((item) => (
+              <li class="flex items-center gap-3.5 bg-navy-700 py-3.5">
+                <Icon name="check" size={17} class="shrink-0 text-gold" />
+                <span class="t-small text-smoke">{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <a class="btn btn-ghost group mt-8" href="#contacto">
+          Pedir la ficha técnica completa
+          <Icon
+            name="arrow-right"
+            size={16}
+            class="transition-transform duration-300 ease-out group-hover:translate-x-1"
+          />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
