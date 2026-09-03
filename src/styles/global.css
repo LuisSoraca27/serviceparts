@@ -210,6 +210,116 @@
     color: theme('colors.blue-bright');
   }
 
+  /* Controles de formulario: mismos angulos rectos y misma retícula que
+     los paneles tecnicos. El plugin forms deja el control en crudo, así
+     que el estilo vive aquí y no repartido por las plantillas. */
+
+  .field-label {
+    display: block;
+    font-family: theme('fontFamily.display');
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: theme('colors.smoke');
+  }
+
+  .field-optional {
+    font-family: theme('fontFamily.mono');
+    font-size: 0.6875rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: theme('colors.grit');
+    text-transform: lowercase;
+  }
+
+  .field {
+    width: 100%;
+    /* La barra superior es fija: sin esto tapa el campo al que saltamos. */
+    scroll-margin-top: 7.5rem;
+    margin-top: 0.5rem;
+    padding: 0.8125rem 0.9375rem;
+    background: theme('colors.navy');
+    border: 1px solid theme('colors.navy-500');
+    border-radius: 2px;
+    color: theme('colors.bone');
+    font-family: theme('fontFamily.sans');
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    transition:
+      border-color 180ms ease,
+      background-color 180ms ease;
+  }
+
+  .field::placeholder {
+    color: theme('colors.grit');
+  }
+
+  .field:hover:not(:disabled) {
+    border-color: theme('colors.navy-600');
+  }
+
+  .field:focus {
+    outline: 2px solid theme('colors.gold');
+    outline-offset: 2px;
+    border-color: theme('colors.gold');
+    background: theme('colors.ink');
+  }
+
+  .field:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .field[aria-invalid='true'] {
+    border-color: theme('colors.gold-deep');
+  }
+
+  /* Flecha propia: la nativa no existe una vez el plugin forms resetea. */
+  select.field {
+    appearance: none;
+    padding-right: 2.75rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f5ae00' stroke-width='1.5' stroke-linecap='square' stroke-linejoin='miter'%3E%3Cpath d='m5 9 7 7 7-7'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.875rem center;
+    background-size: 18px 18px;
+    cursor: pointer;
+  }
+
+  textarea.field {
+    min-height: 8.5rem;
+    resize: vertical;
+  }
+
+  .field-error {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4375rem;
+    margin-top: 0.5rem;
+    font-family: theme('fontFamily.mono');
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: theme('colors.gold-bright');
+  }
+
+  /* El campo libre de "Otro" no aparece de golpe: crece desde su borde. */
+  .field-reveal {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+      grid-template-rows 420ms cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 260ms ease;
+  }
+
+  .field-reveal > * {
+    overflow: hidden;
+  }
+
+  .field-reveal[data-open='true'] {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
   /* Entrada del heroe: el unico momento animado de la pagina. */
   .rise {
     opacity: 0;

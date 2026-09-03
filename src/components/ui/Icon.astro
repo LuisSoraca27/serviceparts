@@ -4,7 +4,7 @@
  * todos pesen igual ópticamente. Se dibuja sólo lo que hace un trabajo
  * real: acciones y canales de contacto.
  */
-export type IconName = 'arrow-right' | 'phone' | 'mail' | 'globe' | 'check' | 'menu' | 'close' | 'dollar' | 'shield' | 'chart';
+export type IconName = 'arrow-right' | 'phone' | 'mail' | 'globe' | 'check' | 'menu' | 'close' | 'dollar' | 'shield' | 'chart' | 'alert' | 'arrow-left';
 
 interface Props {
   name: IconName;
@@ -29,6 +29,8 @@ const paths: Record<IconName, string> = {
   shield:
     'M12 3s7 2.2 7 8c0 5.5-4.5 8.5-7 10-2.5-1.5-7-4.5-7-10 0-5.8 7-8 7-8Zm-2.5 8.5 2 2 4-4',
   chart: 'M3 19h18M4 14.5l4.5-5 4 4 4.5-5.5 3 3',
+  alert: 'M12 3 1.5 21h21L12 3Zm0 6v6m0 3.2v.3',
+  'arrow-left': 'M20 12H5m0 0 5.5-5.5M5 12l5.5 5.5',
 };
 ---
 

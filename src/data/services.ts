@@ -112,10 +112,16 @@ export const drivelineBrands = [
   {
     name: "DANA Spicer",
     description: "Repuestos Spicer para transmisión, ejes y diferenciales. Somos distribuidores autorizados.",
+    image: "/dana-spicer.webp",
+    imageAlt:
+      "Conjunto de repuestos DANA Spicer: coronas, diferenciales, crucetas y ejes sobre mesa de taller",
   },
   {
     name: "ZF",
     description: "Repuestos de transmisión y reductores de alta calidad para maquinaria pesada.",
+    image: "/zf.webp",
+    imageAlt:
+      "Componentes ZF de transmisión y reductores: carcasas, paquetes de discos, mandos y rodamientos",
   },
 ];
 

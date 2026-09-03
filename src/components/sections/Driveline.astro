@@ -1,7 +1,7 @@
 ---
-import { drivelineBrands, drivelineFeatures } from '../../data/services';
-import { media, hasImage } from '../../data/media';
-import Icon from '../ui/Icon.astro';
+import { drivelineBrands, drivelineFeatures } from "../../data/services";
+import { media, hasImage } from "../../data/media";
+import Icon from "../ui/Icon.astro";
 
 const photo = media.driveline;
 const showPhoto = hasImage(photo.file);
@@ -12,10 +12,11 @@ const showPhoto = hasImage(photo.file);
   id="driveline"
   data-nav-section
 >
-  <div class="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
+  <div
+    class="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop"
+  >
     <div class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-gutter">
       <div class="lg:col-span-5">
-        <p class="t-data mb-4 text-blue-bright">DANA Spicer · ZF</p>
         <h2 class="t-h2 text-bone">Componentes y partes de transmisión</h2>
         <p class="t-lead mt-5 max-w-measure">
           Suministro de repuestos para transmisión, ejes, diferenciales y
@@ -49,21 +50,47 @@ const showPhoto = hasImage(photo.file);
       </div>
 
       <div class="lg:col-span-6 lg:col-start-7">
-        <div class="grid grid-cols-1 gap-px bg-navy-500/60 sm:grid-cols-2">
+        <div class="grid grid-cols-1 gap-px bg-navy-700 sm:grid-cols-2">
           {
             drivelineBrands.map((brand) => (
-              <div class="bg-navy-700 px-6 py-8">
-                <h3 class="font-display text-xl font-semibold tracking-[-0.02em] text-bone">
-                  {brand.name}
-                </h3>
-                <p class="t-small mt-3 text-grit">{brand.description}</p>
-              </div>
+              <figure class="group flex flex-col bg-navy-700">
+                <div class="relative overflow-hidden">
+                  <img
+                    class="aspect-[5/4] w-full object-cover object-center transition-transform duration-[900ms] ease-out will-change-transform group-hover:scale-[1.04] [filter:saturate(0.86)_contrast(1.07)_brightness(0.94)]"
+                    src={brand.image}
+                    alt={brand.imageAlt}
+                    width={1536}
+                    height={1024}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  {/* La foto es gris de taller y la seccion es azul profundo:
+                      el tinte la asienta en la paleta en vez de dejarla flotar. */}
+                  <div
+                    class="pointer-events-none absolute inset-0 bg-navy-600/30 mix-blend-multiply"
+                    aria-hidden="true"
+                  />
+                  <div
+                    class="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-navy-700 via-navy-700/45 to-transparent"
+                    aria-hidden="true"
+                  />
+                </div>
+
+                <figcaption class="px-6 pb-8 pt-5">
+                  <h3 class="font-display text-xl font-semibold tracking-[-0.02em] text-bone">
+                    {brand.name}
+                  </h3>
+                  <p class="t-small mt-3 text-grit">{brand.description}</p>
+                </figcaption>
+              </figure>
             ))
           }
         </div>
 
         <div class="clip-panel mt-px bg-gold px-6 py-9 md:px-8 md:py-10">
-          <p class="font-display text-[1.625rem] font-semibold leading-[1.1] tracking-[-0.03em] text-gold-ink md:text-[2rem]">
+          <p
+            class="font-display text-[1.625rem] font-semibold leading-[1.1] tracking-[-0.03em] text-gold-ink md:text-[2rem]"
+          >
             Repuestos de alta calidad para maquinaria que mueve el mundo
           </p>
         </div>

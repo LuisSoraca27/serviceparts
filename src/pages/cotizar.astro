@@ -1,0 +1,594 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/ui/Icon.astro';
+import { siteConfig } from '../data/siteConfig';
+import {
+  OTHER,
+  machineBrands,
+  quoteEndpoint,
+  quotePromise,
+  quoteServices,
+} from '../data/quote';
+
+const channels = [
+  {
+    label: 'Llame',
+    value: siteConfig.contact.phoneDisplay,
+    href: `tel:${siteConfig.contact.phone}`,
+    icon: 'phone' as const,
+  },
+  {
+    label: 'Escriba',
+    value: siteConfig.contact.email,
+    href: `mailto:${siteConfig.contact.email}`,
+    icon: 'mail' as const,
+  },
+];
+---
+
+<Layout
+  title={`Solicitar cotización | ${siteConfig.brandName} ${siteConfig.brandSubtitle}`}
+  description="Cuéntenos qué servicio necesita y sobre qué máquina. Un asesor técnico le responde con referencia, disponibilidad y tiempo de entrega dentro de un día hábil."
+>
+  <section class="w-full bg-navy pb-section-gap pt-12 md:pb-section-gap-lg md:pt-16">
+    <div class="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
+      <a
+        class="t-label group inline-flex items-center gap-2 text-grit transition-colors hover:text-bone"
+        href="/"
+      >
+        <Icon
+          name="arrow-left"
+          size={15}
+          class="transition-transform duration-300 ease-out group-hover:-translate-x-1"
+        />
+        Volver al inicio
+      </a>
+
+      <!-- En móvil el formulario va justo detrás del titular: la tarea es
+           llenarlo, no leer la columna de contexto. En escritorio la retícula
+           devuelve cada bloque a su sitio. -->
+      <div class="mt-8 grid grid-cols-1 gap-y-10 lg:grid-cols-12 lg:gap-gutter">
+        <div class="lg:col-span-4 lg:col-start-1 lg:row-start-1">
+          <h1 class="t-display max-w-[14ch] text-bone">
+            Solicitar <span class="text-gold">cotización</span>
+          </h1>
+          <p class="t-lead mt-6 max-w-measure">
+            Díganos qué servicio necesita y sobre qué máquina. Entre más
+            preciso el modelo, más precisa la referencia que le cotizamos.
+          </p>
+        </div>
+
+        <!-- Formulario -->
+        <div class="lg:col-span-7 lg:col-start-6 lg:row-span-2 lg:row-start-1">
+          <div class="border border-navy-500/60 bg-navy-700">
+            <div class="stripes" aria-hidden="true"></div>
+
+            <form
+              class="px-6 py-9 md:px-9 md:py-10"
+              id="quote-form"
+              method="POST"
+              action={quoteEndpoint || undefined}
+              novalidate
+            >
+              <!-- Qué necesita -->
+              <fieldset>
+                <legend class="t-h3 text-bone">Qué necesita</legend>
+
+                <div class="mt-6">
+                  <label class="field-label" for="servicio">Servicio</label>
+                  <select
+                    class="field"
+                    id="servicio"
+                    name="servicio"
+                    required
+                    data-reveals="servicio-otro-wrap"
+                    aria-describedby="servicio-error"
+                  >
+                    <option value="">Seleccione un servicio…</option>
+                    {
+                      quoteServices.map((item) => (
+                        <option value={item.value}>{item.label}</option>
+                      ))
+                    }
+                  </select>
+                  <p class="field-error hidden" id="servicio-error" role="alert">
+                    <Icon name="alert" size={14} class="mt-px shrink-0" />
+                    <span>Elija el servicio que necesita.</span>
+                  </p>
+                </div>
+
+                <div class="field-reveal" data-open="false" id="servicio-otro-wrap">
+                  <div>
+                    <div class="pt-5">
+                      <label class="field-label" for="servicio-otro">
+                        ¿Qué servicio necesita?
+                      </label>
+                      <input
+                        class="field"
+                        id="servicio-otro"
+                        name="servicio_otro"
+                        type="text"
+                        autocomplete="off"
+                        placeholder="Descríbalo en pocas palabras"
+                        disabled
+                        aria-describedby="servicio-otro-error"
+                      />
+                      <p
+                        class="field-error hidden"
+                        id="servicio-otro-error"
+                        role="alert"
+                      >
+                        <Icon name="alert" size={14} class="mt-px shrink-0" />
+                        <span>Cuéntenos qué necesita para poder cotizarlo.</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
+                  <div>
+                    <label class="field-label" for="marca">
+                      Marca de la máquina
+                      <span class="field-optional">opcional</span>
+                    </label>
+                    <select
+                      class="field"
+                      id="marca"
+                      name="marca"
+                      data-reveals="marca-otra-wrap"
+                    >
+                      <option value="">Seleccione una marca…</option>
+                      {
+                        machineBrands.map((item) => (
+                          <option value={item.value}>{item.label}</option>
+                        ))
+                      }
+                    </select>
+                  </div>
+
+                  <div>
+                    <label class="field-label" for="modelo">
+                      Modelo
+                      <span class="field-optional">opcional</span>
+                    </label>
+                    <input
+                      class="field"
+                      id="modelo"
+                      name="modelo"
+                      type="text"
+                      autocomplete="off"
+                      placeholder="6060, PC3000, EX5600…"
+                    />
+                  </div>
+                </div>
+
+                <div class="field-reveal" data-open="false" id="marca-otra-wrap">
+                  <div>
+                    <div class="pt-5">
+                      <label class="field-label" for="marca-otra">
+                        ¿Qué marca es?
+                      </label>
+                      <input
+                        class="field"
+                        id="marca-otra"
+                        name="marca_otra"
+                        type="text"
+                        autocomplete="off"
+                        placeholder="Nombre del fabricante"
+                        disabled
+                        aria-describedby="marca-otra-error"
+                      />
+                      <p
+                        class="field-error hidden"
+                        id="marca-otra-error"
+                        role="alert"
+                      >
+                        <Icon name="alert" size={14} class="mt-px shrink-0" />
+                        <span>Escriba la marca de la máquina.</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-5">
+                  <label class="field-label" for="detalle">
+                    Detalle de la solicitud
+                    <span class="field-optional">opcional</span>
+                  </label>
+                  <textarea
+                    class="field"
+                    id="detalle"
+                    name="detalle"
+                    placeholder="Referencias, cantidades, horas de la máquina, fecha en que lo necesita…"
+                  ></textarea>
+                </div>
+              </fieldset>
+
+              <!-- A quién le respondemos -->
+              <fieldset class="mt-10 border-t border-navy-500/60 pt-9">
+                <legend class="t-h3 text-bone">A quién le respondemos</legend>
+
+                <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+                  <div>
+                    <label class="field-label" for="nombre">Nombre</label>
+                    <input
+                      class="field"
+                      id="nombre"
+                      name="nombre"
+                      type="text"
+                      autocomplete="name"
+                      required
+                      aria-describedby="nombre-error"
+                    />
+                    <p class="field-error hidden" id="nombre-error" role="alert">
+                      <Icon name="alert" size={14} class="mt-px shrink-0" />
+                      <span>Escriba su nombre.</span>
+                    </p>
+                  </div>
+
+                  <div>
+                    <label class="field-label" for="empresa">Empresa</label>
+                    <input
+                      class="field"
+                      id="empresa"
+                      name="empresa"
+                      type="text"
+                      autocomplete="organization"
+                      required
+                      aria-describedby="empresa-error"
+                    />
+                    <p class="field-error hidden" id="empresa-error" role="alert">
+                      <Icon name="alert" size={14} class="mt-px shrink-0" />
+                      <span>Escriba el nombre de la empresa.</span>
+                    </p>
+                  </div>
+
+                  <div>
+                    <label class="field-label" for="correo">
+                      Correo corporativo
+                    </label>
+                    <input
+                      class="field"
+                      id="correo"
+                      name="correo"
+                      type="email"
+                      autocomplete="email"
+                      required
+                      placeholder="nombre@empresa.com"
+                      aria-describedby="correo-error"
+                    />
+                    <p class="field-error hidden" id="correo-error" role="alert">
+                      <Icon name="alert" size={14} class="mt-px shrink-0" />
+                      <span data-message>Escriba un correo al que podamos responder.</span>
+                    </p>
+                  </div>
+
+                  <div>
+                    <label class="field-label" for="telefono">
+                      Teléfono
+                      <span class="field-optional">opcional</span>
+                    </label>
+                    <input
+                      class="field"
+                      id="telefono"
+                      name="telefono"
+                      type="tel"
+                      autocomplete="tel"
+                      placeholder="+57 300 000 0000"
+                    />
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- Trampa para bots: invisible y fuera del orden de tabulación -->
+              <div class="sr-only" aria-hidden="true">
+                <label for="referencia-interna">No llenar este campo</label>
+                <input
+                  id="referencia-interna"
+                  name="referencia_interna"
+                  type="text"
+                  tabindex="-1"
+                  autocomplete="off"
+                />
+              </div>
+
+              <div class="mt-9 flex flex-col gap-5 border-t border-navy-500/60 pt-8 sm:flex-row sm:items-center sm:justify-between">
+                <p class="t-small max-w-[38ch] text-grit">
+                  Sus datos se usan solo para responder esta solicitud.
+                </p>
+                <button class="btn btn-primary group shrink-0" type="submit">
+                  <span data-submit-label>Enviar solicitud</span>
+                  <Icon
+                    name="arrow-right"
+                    size={17}
+                    class="transition-transform duration-300 ease-out group-hover:translate-x-1"
+                  />
+                </button>
+              </div>
+
+              <p class="field-error mt-5 hidden" id="form-error" role="alert">
+                <Icon name="alert" size={14} class="mt-px shrink-0" />
+                <span data-message></span>
+              </p>
+            </form>
+
+            <!-- Acuse de recibo: reemplaza al formulario, no lo empuja -->
+            <div class="hidden scroll-mt-28 px-6 py-14 md:px-9" id="quote-done">
+              <div
+                class="flex h-14 w-14 items-center justify-center rounded-full bg-gold"
+              >
+                <Icon name="check" size={26} class="text-gold-ink" />
+              </div>
+              <h2 class="t-h2 mt-7 max-w-[18ch] text-bone">
+                Solicitud enviada
+              </h2>
+              <p class="t-lead mt-5 max-w-measure">
+                Un asesor técnico le responde a
+                <span class="text-bone" data-echo-email></span> dentro de un
+                día hábil. Si su parada es hoy, llámenos y lo atendemos de
+                una vez.
+              </p>
+              <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+                <a
+                  class="btn btn-primary"
+                  href={`tel:${siteConfig.contact.phone}`}
+                >
+                  <Icon name="phone" size={16} />
+                  {siteConfig.contact.phoneDisplay}
+                </a>
+                <a class="btn btn-ghost" href="/">Volver al inicio</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Qué puede esperar y por dónde más contactarnos -->
+        <div class="lg:col-span-4 lg:col-start-1 lg:row-start-2">
+            <ul class="space-y-px bg-navy-500/50">
+              {
+                quotePromise.map((item) => (
+                  <li class="flex items-start gap-3.5 bg-navy py-3.5">
+                    <Icon name="check" size={17} class="mt-1 shrink-0 text-gold" />
+                    <span class="t-small text-smoke">{item}</span>
+                  </li>
+                ))
+              }
+            </ul>
+
+            <div class="mt-9 grid grid-cols-1 gap-px bg-navy-500/50 sm:grid-cols-2 lg:grid-cols-1">
+              {
+                channels.map((channel) => (
+                  <a
+                    class="group flex flex-col gap-2 bg-navy py-4"
+                    href={channel.href}
+                  >
+                    <span class="t-label flex items-center gap-2 text-grit">
+                      <Icon name={channel.icon} size={15} class="text-gold" />
+                      {channel.label}
+                    </span>
+                    <span class="t-data text-[0.9375rem] text-bone transition-colors group-hover:text-gold">
+                      {channel.value}
+                    </span>
+                  </a>
+                ))
+              }
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script define:vars={{ OTHER, quoteEndpoint, salesEmail: siteConfig.contact.email }}>
+  function initQuoteForm() {
+    const form = document.getElementById('quote-form');
+    const done = document.getElementById('quote-done');
+    if (!(form instanceof HTMLFormElement) || !done) return;
+
+    const submitButton = form.querySelector('button[type="submit"]');
+    const submitLabel = form.querySelector('[data-submit-label]');
+    const formError = document.getElementById('form-error');
+
+    /** Muestra u oculta el mensaje de un campo y marca el control. */
+    const setFieldError = (control, message) => {
+      const describedBy = control.getAttribute('aria-describedby');
+      const box = describedBy ? document.getElementById(describedBy) : null;
+      control.setAttribute('aria-invalid', message ? 'true' : 'false');
+      if (!box) return;
+      box.classList.toggle('hidden', !message);
+      const slot = box.querySelector('[data-message]');
+      if (slot && message) slot.textContent = message;
+    };
+
+    const setFormError = (message) => {
+      if (!formError) return;
+      formError.classList.toggle('hidden', !message);
+      const slot = formError.querySelector('[data-message]');
+      if (slot) slot.textContent = message || '';
+    };
+
+    // Quien llega desde una seccion ya dijo que servicio quiere: se
+    // preselecciona en vez de pedirselo otra vez.
+    const requested = new URLSearchParams(window.location.search).get('servicio');
+    const servicio = form.querySelector('#servicio');
+    if (requested && servicio?.querySelector(`option[value="${requested}"]`)) {
+      servicio.value = requested;
+    }
+
+    // "Otro" abre su campo de texto. Deshabilitado mientras está cerrado,
+    // así no viaja vacío ni recibe foco con el tabulador.
+    form.querySelectorAll('select[data-reveals]').forEach((select) => {
+      const wrap = document.getElementById(select.dataset.reveals);
+      if (!wrap) return;
+      const input = wrap.querySelector('input');
+
+      const sync = () => {
+        const open = select.value === OTHER;
+        wrap.dataset.open = String(open);
+        if (!input) return;
+        input.disabled = !open;
+        if (!open) {
+          input.value = '';
+          setFieldError(input, '');
+        }
+      };
+
+      select.addEventListener('change', () => {
+        sync();
+        setFieldError(select, '');
+        if (select.value === OTHER && input) {
+          window.setTimeout(() => input.focus(), 240);
+        }
+      });
+      sync();
+    });
+
+    // Al corregir un campo, el error se retira sin esperar al siguiente envío.
+    form.querySelectorAll('.field').forEach((control) => {
+      control.addEventListener('input', () => {
+        if (control.getAttribute('aria-invalid') === 'true') {
+          setFieldError(control, '');
+          setFormError('');
+        }
+      });
+    });
+
+    const validate = () => {
+      const problems = [];
+
+      const require = (id, message) => {
+        const control = form.querySelector(`#${id}`);
+        if (!control || control.disabled) return;
+        const empty = !control.value.trim();
+        setFieldError(control, empty ? message : '');
+        if (empty) problems.push(control);
+      };
+
+      require('servicio', 'Elija el servicio que necesita.');
+      require('servicio-otro', 'Cuéntenos qué necesita para poder cotizarlo.');
+      require('marca-otra', 'Escriba la marca de la máquina.');
+      require('nombre', 'Escriba su nombre.');
+      require('empresa', 'Escriba el nombre de la empresa.');
+
+      const correo = form.querySelector('#correo');
+      if (correo) {
+        const value = correo.value.trim();
+        const message = !value
+          ? 'Escriba un correo al que podamos responder.'
+          : !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)
+            ? 'Ese correo no parece completo. Revíselo, por favor.'
+            : '';
+        setFieldError(correo, message);
+        if (message) problems.push(correo);
+      }
+
+      return problems;
+    };
+
+    /** Redacta la solicitud en texto plano: sirve igual para correo o POST. */
+    const compose = (data) => {
+      const label = (id, value) => {
+        const select = form.querySelector(`#${id}`);
+        const option = select?.querySelector(`option[value="${value}"]`);
+        return option?.textContent?.trim() || value;
+      };
+
+      const servicio =
+        data.get('servicio') === OTHER
+          ? data.get('servicio_otro')
+          : label('servicio', data.get('servicio'));
+
+      const marcaValue = data.get('marca');
+      const marca = !marcaValue
+        ? ''
+        : marcaValue === OTHER
+          ? data.get('marca_otra')
+          : label('marca', marcaValue);
+
+      const rows = [
+        ['Servicio', servicio],
+        ['Marca', marca],
+        ['Modelo', data.get('modelo')],
+        ['Detalle', data.get('detalle')],
+        ['Nombre', data.get('nombre')],
+        ['Empresa', data.get('empresa')],
+        ['Correo', data.get('correo')],
+        ['Teléfono', data.get('telefono')],
+      ];
+
+      return rows
+        .filter(([, value]) => String(value || '').trim())
+        .map(([key, value]) => `${key}: ${String(value).trim()}`)
+        .join('\n');
+    };
+
+    const showDone = (email) => {
+      const echo = done.querySelector('[data-echo-email]');
+      if (echo) echo.textContent = email;
+      form.classList.add('hidden');
+      done.classList.remove('hidden');
+      done.setAttribute('tabindex', '-1');
+      done.focus({ preventScroll: true });
+      done.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    };
+
+    const setBusy = (busy) => {
+      if (submitButton) submitButton.disabled = busy;
+      if (submitLabel) {
+        submitLabel.textContent = busy ? 'Enviando…' : 'Enviar solicitud';
+      }
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      setFormError('');
+
+      // Trampa para bots: si viene llena, se descarta en silencio.
+      if (form.querySelector('#referencia-interna')?.value) return;
+
+      const problems = validate();
+      if (problems.length) {
+        setFormError('Revise los campos marcados para poder enviar.');
+        problems[0].focus({ preventScroll: true });
+        problems[0].scrollIntoView({ block: 'center', behavior: 'smooth' });
+        return;
+      }
+
+      const data = new FormData(form);
+      const correo = String(data.get('correo') || '');
+
+      // Sin servicio de correo contratado todavía: la solicitud sale por el
+      // cliente de correo con todo redactado. Al definir quoteEndpoint en
+      // data/quote.ts esta rama se apaga sola y pasa a ser un POST.
+      if (!quoteEndpoint) {
+        const subject = `Solicitud de cotización — ${data.get('empresa')}`;
+        window.location.href = `mailto:${salesEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(compose(data))}`;
+        showDone(correo);
+        return;
+      }
+
+      setBusy(true);
+      try {
+        const response = await fetch(quoteEndpoint, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: data,
+        });
+        if (!response.ok) throw new Error(String(response.status));
+        showDone(correo);
+      } catch {
+        setFormError(
+          `No pudimos enviar la solicitud. Inténtelo de nuevo o escríbanos a ${salesEmail}.`
+        );
+      } finally {
+        setBusy(false);
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initQuoteForm);
+  } else {
+    initQuoteForm();
+  }
+</script>

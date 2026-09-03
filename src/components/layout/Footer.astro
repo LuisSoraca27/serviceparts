@@ -1,6 +1,6 @@
 ---
-import { siteConfig } from '../../data/siteConfig';
-import { navigationItems } from '../../data/navigation';
+import { siteConfig } from "../../data/siteConfig";
+import { navigationItems } from "../../data/navigation";
 
 const currentYear = new Date().getFullYear();
 ---
@@ -31,7 +31,10 @@ const currentYear = new Date().getFullYear();
         {
           navigationItems.map((item) => (
             <li>
-              <a class="t-small text-smoke transition-colors hover:text-gold" href={item.href}>
+              <a
+                class="t-small text-smoke transition-colors hover:text-gold"
+                href={item.href}
+              >
                 {item.label}
               </a>
             </li>
@@ -44,12 +47,18 @@ const currentYear = new Date().getFullYear();
       <h2 class="t-label text-grit">Contacto</h2>
       <ul class="mt-5 space-y-3">
         <li>
-          <a class="t-data text-smoke transition-colors hover:text-gold" href={`tel:${siteConfig.contact.phone}`}>
+          <a
+            class="t-data text-smoke transition-colors hover:text-gold"
+            href={`tel:${siteConfig.contact.phone}`}
+          >
             {siteConfig.contact.phoneDisplay}
           </a>
         </li>
         <li>
-          <a class="t-data break-all text-smoke transition-colors hover:text-gold" href={`mailto:${siteConfig.contact.email}`}>
+          <a
+            class="t-data break-all text-smoke transition-colors hover:text-gold"
+            href={`mailto:${siteConfig.contact.email}`}
+          >
             {siteConfig.contact.email}
           </a>
         </li>
@@ -63,10 +72,9 @@ const currentYear = new Date().getFullYear();
       class="mx-auto flex max-w-container-max flex-col gap-2 px-margin-mobile py-5 md:flex-row md:items-center md:justify-between md:px-margin-desktop"
     >
       <p class="t-data text-grit">
-        © {currentYear} {siteConfig.brandName} {siteConfig.brandSubtitle}
-      </p>
-      <p class="t-data text-grit/70">
-        Las marcas citadas son propiedad de sus respectivos titulares.
+        © {currentYear}
+        {siteConfig.brandName}
+        {siteConfig.brandSubtitle}
       </p>
     </div>
   </div>

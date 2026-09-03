@@ -2,12 +2,12 @@
 import { valuePropositions } from '../../data/services';
 ---
 
-<section class="w-full bg-navy-700">
+<section class="w-full bg-navy-700 py-9 md:py-11">
   <div class="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
-    <div class="grid grid-cols-1 gap-px bg-navy-500/60 lg:grid-cols-3">
+    <div class="grid grid-cols-1 gap-8 text-center md:gap-10 lg:grid-cols-3 lg:gap-12">
       {
         valuePropositions.map((item) => (
-          <div class="bg-navy-700 py-9 lg:px-8 lg:first:pl-0 lg:last:pr-0">
+          <div class="flex flex-col items-center text-center">
             <h2 class="t-h3 text-bone">{item.title}</h2>
             <p class="t-small mt-3 max-w-[40ch] text-grit">{item.description}</p>
           </div>

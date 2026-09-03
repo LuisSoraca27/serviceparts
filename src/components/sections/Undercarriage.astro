@@ -1,7 +1,6 @@
 ---
-import { productComponents } from '../../data/components';
-import PartDrawing from '../ui/PartDrawing.astro';
-import Icon from '../ui/Icon.astro';
+import { productComponents } from "../../data/components";
+import Icon from "../ui/Icon.astro";
 ---
 
 <section
@@ -9,10 +8,13 @@ import Icon from '../ui/Icon.astro';
   id="undercarriage"
   data-nav-section
 >
-  <div class="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
-    <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+  <div
+    class="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop"
+  >
+    <div
+      class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between"
+    >
       <div class="max-w-3xl">
-        <p class="t-data mb-4 text-blue-bright">Progress Mining</p>
         <h2 class="t-h2 text-bone">Tren de rodaje para gran minería</h2>
         <p class="t-lead mt-5 max-w-measure">
           Cuatro conjuntos fabricados bajo las mismas normas, con la
@@ -20,7 +22,10 @@ import Icon from '../ui/Icon.astro';
           superiores.
         </p>
       </div>
-      <a class="btn btn-ghost group shrink-0 sm:self-start" href="#contacto">
+      <a
+        class="btn btn-ghost group shrink-0 sm:self-start"
+        href="/cotizar?servicio=tren-de-rodaje"
+      >
         Reservar supervisión
         <Icon
           name="arrow-right"
@@ -30,14 +35,23 @@ import Icon from '../ui/Icon.astro';
       </a>
     </div>
 
-    <div class="mt-12 grid grid-cols-1 gap-px bg-navy-500/60 md:mt-14 lg:grid-cols-2">
+    <div
+      class="mt-12 grid grid-cols-1 gap-px bg-navy-500/60 md:mt-14 lg:grid-cols-2"
+    >
       {
         productComponents.map((component) => (
           <article class="group flex flex-col gap-6 bg-navy-700 p-7 sm:flex-row sm:gap-8 sm:p-9">
-            <div class="shrink-0">
-              <PartDrawing
-                name={component.drawing}
-                class="h-28 w-28 text-blue transition-colors duration-500 group-hover:text-gold sm:h-36 sm:w-36"
+            {/* El render viene recortado sobre transparencia: la sombra sigue
+                el contorno real de la pieza y la asienta sobre el panel. */}
+            <div class="flex h-32 w-full shrink-0 items-center justify-center sm:h-40 sm:w-48">
+              <img
+                class="h-full w-full object-contain object-center drop-shadow-[0_16px_22px_rgba(1,12,22,0.7)] transition-transform duration-700 ease-out group-hover:-translate-y-1 group-hover:scale-[1.04]"
+                src={component.image}
+                alt={component.imageAlt}
+                width={component.imageWidth}
+                height={component.imageHeight}
+                loading="lazy"
+                decoding="async"
               />
             </div>
 
